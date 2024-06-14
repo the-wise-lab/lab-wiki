@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+    <url>
+      <loc>http://localhost:55331/docs/computational_modelling/</loc>
+      <lastmod>2023-09-07T16:06:50+02:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>http://localhost:55331/docs/online_experiments/</loc>
+      <lastmod>2023-09-07T16:12:37+02:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>http://localhost:55331/docs/computational_modelling/behavioural_modelling_package/</loc>
+        <lastmod>2023-09-07T16:06:50+02:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+      </url>
+      <url>
+        <loc>http://localhost:55331/docs/computational_modelling/guide/</loc>
+        <lastmod>2023-09-07T16:06:50+02:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+      </url>
+      <url>
+        <loc>http://localhost:55331/docs/computational_modelling/tutorial/</loc>
+        <lastmod>2023-09-07T16:06:50+02:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+      </url>
+      <url>
+        <loc>http://localhost:55331/docs/computational_modelling/general-best-practices/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+      </url>
+      </urlset>

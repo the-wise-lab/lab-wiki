@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+    <url>
+      <loc>http://localhost:55331/docs/computational_modelling/tutorial/1.-overview/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>http://localhost:55331/docs/computational_modelling/tutorial/2.-implementing-an-update-function/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>http://localhost:55331/docs/computational_modelling/tutorial/3.-selecting-actions/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>http://localhost:55331/docs/computational_modelling/tutorial/4.-updating-value-across-trials/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>http://localhost:55331/docs/computational_modelling/tutorial/5.-running-the-model-for-multiple-subjects/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>http://localhost:55331/docs/computational_modelling/tutorial/6.-model-fitting-using-mcmc/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    </urlset>

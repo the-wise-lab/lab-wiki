@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Wise Lab Wiki</title>
+    <link>http://localhost:55843/</link>
+    <description>Recent content on Wise Lab Wiki</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2020-2024 Hyas</copyright>
+    <lastBuildDate>Thu, 07 Sep 2023 16:04:48 +0200</lastBuildDate>
+    <atom:link href="http://localhost:55843/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>1. Building basic models</title>
+      <link>http://localhost:55843/docs/computational_modelling/guide/1.-building-basic-models/</link>
+      <pubDate>Thu, 07 Sep 2023 16:04:48 +0200</pubDate>
+      <guid>http://localhost:55843/docs/computational_modelling/guide/1.-building-basic-models/</guid>
+      <description>This guide will take you through the process of building trial-by-trial learning models. It assumes some knowledge of how these models work, and is more focused on the implementation.</description>
+    </item>
+    <item>
+      <title>2. Modelling multiple participants</title>
+      <link>http://localhost:55843/docs/computational_modelling/guide/2.-modelling-multiple-participants/</link>
+      <pubDate>Thu, 07 Sep 2023 16:04:48 +0200</pubDate>
+      <guid>http://localhost:55843/docs/computational_modelling/guide/2.-modelling-multiple-participants/</guid>
+      <description>In the previous section, we discussed how to model a single participant. In this section, we will discuss how to model multiple participants.</description>
+    </item>
+    <item>
+      <title>3. MCMC sampling</title>
+      <link>http://localhost:55843/docs/computational_modelling/guide/3.-mcmc-sampling/</link>
+      <pubDate>Thu, 07 Sep 2023 16:04:48 +0200</pubDate>
+      <guid>http://localhost:55843/docs/computational_modelling/guide/3.-mcmc-sampling/</guid>
+      <description>The previous sections outline how to generate simulated data using a computational model. In this section, we will discuss how to use Markov Chain Monte Carlo (MCMC) sampling to fit a model to data.</description>
+    </item>
+    <item>
+      <title>4. Hierarchical models</title>
+      <link>http://localhost:55843/docs/computational_modelling/guide/4.-hierarchical-models/</link>
+      <pubDate>Thu, 07 Sep 2023 16:04:48 +0200</pubDate>
+      <guid>http://localhost:55843/docs/computational_modelling/guide/4.-hierarchical-models/</guid>
+      <description>The statistical model described in the previous section assumes that participants are independent of one another. In reality, participants are drawn from a group that will often have shared characteristics.</description>
+    </item>
+    <item>
+      <title>5. Visualising MCMC results</title>
+      <link>http://localhost:55843/docs/computational_modelling/guide/5.-visualising-mcmc-results/</link>
+      <pubDate>Thu, 07 Sep 2023 16:04:48 +0200</pubDate>
+      <guid>http://localhost:55843/docs/computational_modelling/guide/5.-visualising-mcmc-results/</guid>
+      <description>The best way to visualise and check the results when using sampling is to use the ArviZ library. This library is designed to work with a range of sampling packages, including NumPyro.</description>
+    </item>
+    <item>
+      <title>6. Simulation based inference</title>
+      <link>http://localhost:55843/docs/computational_modelling/guide/6.-simulation-based-inference/</link>
+      <pubDate>Thu, 07 Sep 2023 16:04:48 +0200</pubDate>
+      <guid>http://localhost:55843/docs/computational_modelling/guide/6.-simulation-based-inference/</guid>
+      <description>Coming soon&amp;hellip;</description>
+    </item>
+    <item>
+      <title>1. Overview</title>
+      <link>http://localhost:55843/docs/computational_modelling/behavioural_modelling_package/1.-overview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:55843/docs/computational_modelling/behavioural_modelling_package/1.-overview/</guid>
+      <description>In order to standardise the way we build models and make our modelling code maximally reusable, we have developed a package that contains a set of functions that can be used to build behavioural models.</description>
+    </item>
+    <item>
+      <title>1. Overview</title>
+      <link>http://localhost:55843/docs/computational_modelling/tutorial/1.-overview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:55843/docs/computational_modelling/tutorial/1.-overview/</guid>
+      <description>This tutorial will take you through the implementation of a commonly-used reinforcement learning model, the Rescorla-Wagner model. We will implement an asymmetric version of this model that allows for differential updating of value estimates in response to positive and negative prediction errors (see here).</description>
+    </item>
+    <item>
+      <title>2. Implementing an update function</title>
+      <link>http://localhost:55843/docs/computational_modelling/tutorial/2.-implementing-an-update-function/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:55843/docs/computational_modelling/tutorial/2.-implementing-an-update-function/</guid>
+      <description>Implementing an update function First, we need to create a function that implements the core update method for our model (i.</description>
+    </item>
+    <item>
+      <title>3. Selecting actions</title>
+      <link>http://localhost:55843/docs/computational_modelling/tutorial/3.-selecting-actions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:55843/docs/computational_modelling/tutorial/3.-selecting-actions/</guid>
+      <description>Selecting actions In most learning tasks we are asking participants to select different actions or stimuli based on their estimated value.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,1421 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=55331&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preload" href="http://localhost:55331/fonts/vendor/jost/jost-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="http://localhost:55331/fonts/vendor/jost/jost-v4-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="http://localhost:55331/fonts/vendor/jost/jost-v4-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+<script 
+  src="/js/color-mode.f14b3e296de1d0b69e75af684b62a4a912a2cadab04e36123407cd8388204f1d.js"
+  integrity="sha256-8Us&#43;KW3h0Laeda9oS2KkqRKiytqwTjYSNAfNg4ggTx0=">
+</script>
+
+
+<link rel="stylesheet" href="/main.01b0834d5af51b24812d02878d09c8d7677d6b8af13164fb50215889dc19aaefd0e9366c13b45a9a57ae481dfd1836bce46b5ebfe461d56e3498b9443d8c5e27.css" integrity="sha512-AbCDTVr1GySBLQKHjQnI12d9a4rxMWT7UCFYidwZqu/Q6TZsE7RamleuSB39GDa85Gtev&#43;Rh1W40mLlEPYxeJw==" crossorigin="anonymous">
+
+<noscript><style>img.lazyload { display: none; }</style></noscript><base href="http://localhost:55331/docs/computational_modelling/tutorial/6.-model-fitting-using-mcmc/">
+  <link rel="canonical" href="http://localhost:55331/docs/computational_modelling/tutorial/6.-model-fitting-using-mcmc/">
+<title>6. Model fitting using MCMC  |  Wise Lab Wiki</title>
+<meta name="description" content="Congrats on setting up a new Doks project!">
+
+    
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+      <link
+        rel="apple-touch-icon"
+        href="/apple-touch-icon.png"
+        sizes="180x180"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-192x192.png"
+        sizes="192x192"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-512x512.png"
+        sizes="512x512"
+        type="image/png"
+      >
+<link rel="manifest" href="/manifest.webmanifest">
+<meta property="og:title" content="6. Model fitting using MCMC">
+<meta property="og:description" content="Model fitting using MCMC Next, we&rsquo;ll try fitting our model to some simulated data.
+Imports First, we import necessary packages.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://localhost:55331/docs/computational_modelling/tutorial/6.-model-fitting-using-mcmc/"><meta property="og:image" content="http://localhost:55331/cover.png"><meta property="article:section" content="docs">
+
+<meta property="og:site_name" content="My Docs">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:55331/cover.png"><meta name="twitter:title" content="6. Model fitting using MCMC">
+<meta name="twitter:description" content="Model fitting using MCMC Next, we&rsquo;ll try fitting our model to some simulated data.
+Imports First, we import necessary packages.">
+<meta name="twitter:site" content="@getdoks">
+
+    
+    
+    
+    <script type="application/ld+json">
+  {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:55331/",
+       "name": "Wise Lab Wiki",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:55331/docs/",
+       "name": "Docs",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:55331/docs/computational_modelling/",
+       "name": "Computational Modelling",
+       "position": 3
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:55331/docs/computational_modelling/tutorial/",
+       "name": "Tutorial",
+       "position": 4
+     },
+     {
+       "@type": "ListItem",
+       "name": "6. Model Fitting Using MC MC",
+       "position": 5
+     }
+   ]
+ }
+</script>
+
+
+
+<head>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+
+</head>
+
+
+</head>
+
+  
+  <body class="single section docs" data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="0px 0px -60%" data-bs-smooth-scroll="true" tabindex="0">
+    <div class="sticky-top">
+<header class="navbar navbar-expand-lg">
+  <div class="container-lg">
+  
+    <a class="navbar-brand me-auto me-lg-3" href="/">Wise Lab Wiki</a>
+
+    
+    
+    <button type="button" id="searchToggleMobile" class="btn btn-link nav-link mx-2 d-lg-none" aria-label="Search website">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <circle cx="10" cy="10" r="7"></circle>
+        <line x1="21" y1="21" x2="15" y2="15"></line>
+      </svg>
+    </button>
+    
+    <button class="btn btn-link d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavSection" aria-controls="offcanvasNavSection" aria-label="Open section navigation menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+      </svg>
+    </button>
+    <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasNavSection" aria-labelledby="offcanvasNavSectionLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavSectionLabel">Docs</h5>
+        <button type="button" class="btn btn-link nav-link p-0 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="offcanvas-body">
+        <aside class="doks-sidebar mt-n3">
+          <nav id="doks-docs-nav" aria-label="Tertiary navigation">
+            
+  
+    
+<nav class="section-nav docs-links">
+  <ul class="list-unstyled">
+
+  <li>
+    <details open open>
+      <summary>Computational modelling</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+    <details open>
+      <summary>Behavioural Modelling Package</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/behavioural_modelling_package/1.-overview/">1. Overview</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+    <details open>
+      <summary>Guide</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/guide/1.-building-basic-models/">1. Building basic models</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/2.-modelling-multiple-participants/">2. Modelling multiple participants</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/3.-mcmc-sampling/">3. MCMC sampling</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/4.-hierarchical-models/">4. Hierarchical models</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/5.-visualising-mcmc-results/">5. Visualising MCMC results</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/6.-simulation-based-inference/">6. Simulation based inference</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+    <details open open>
+      <summary>Tutorial</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/1.-overview/">1. Overview</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/2.-implementing-an-update-function/">2. Implementing an update function</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/3.-selecting-actions/">3. Selecting actions</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/4.-updating-value-across-trials/">4. Updating value across trials</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/5.-running-the-model-for-multiple-subjects/">5. Running the model for multiple subjects</a>
+  </li>
+
+  <li class="active" >
+      <a aria-current="page" href="/docs/computational_modelling/tutorial/6.-model-fitting-using-mcmc/">6. Model fitting using MCMC</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/general-best-practices/">General best practices</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+      <a href="/docs/online_experiments/">Online experiments</a>
+  </li>
+  </ul>
+</nav>
+
+  
+
+          </nav>
+        </aside>
+      </div>
+    </div>
+    
+    <button class="btn btn-link nav-link mx-2 order-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavMain" aria-controls="offcanvasNavMain" aria-label="Open main navigation menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <line x1="4" y1="8" x2="20" y2="8"></line>
+        <line x1="4" y1="16" x2="20" y2="16"></line>
+      </svg>
+    </button>
+
+    
+    <div class="offcanvas offcanvas-end h-auto" tabindex="-1" id="offcanvasNavMain" aria-labelledby="offcanvasNavMainLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavMainLabel">Wise Lab Wiki</h5>
+        <button type="button" class="btn btn-link nav-link p-0 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+         </svg>
+        </button>
+      </div>
+      
+      <div class="offcanvas-body d-flex flex-column flex-lg-row justify-content-between">
+        <ul class="navbar-nav flex-grow-1"><li class="nav-item">
+                <a class="nav-link active" href="http://localhost:55331/docs/computational_modelling/behavioural_modelling_package/1.-overview" aria-current="true">Docs</a>
+              </li>
+            </ul>
+
+        
+        
+        <button type="button" id="searchToggleDesktop" class="btn btn-link nav-link p-2 d-none d-lg-block" aria-label="Search website">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <circle cx="10" cy="10" r="7"></circle>
+            <line x1="21" y1="21" x2="15" y2="15"></line>
+          </svg>
+        </button>
+        
+        
+        
+        <button id="buttonColorMode" class="btn btn-link mx-auto nav-link p-0 ms-lg-2 me-lg-1" type="button" aria-label="Toggle theme">
+          <svg data-bs-theme-value="dark" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+          </svg>
+          <svg data-bs-theme-value="light" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0m-5 0h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
+          </svg>
+        </button>
+        
+        <ul id="socialMenu" class="nav mx-auto flex-row order-lg-4">
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://github.com/the-wise-lab"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg><small class="ms-2 visually-hidden">GitHub</small></a>
+            </li>
+          </ul>
+        
+        </div>
+    </div>
+
+    
+    </div>
+</header>
+</div>
+
+<div class="modal" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 visually-hidden" id="searchModalLabel">Search</h1>
+        <button type="button" class="btn-close visually-hidden" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="search-input flex-grow-1 d-none">
+          <form id="search-form" class="search-form" action="#" method="post" accept-charset="UTF-8" role="search">
+            <label for="query" class="visually-hidden">Search</label>
+            <div class="d-flex">
+              <input type="search" id="query" name="query" class="search-text form-control form-control-lg" placeholder="Search" aria-label="Search" maxlength="128" autocomplete="off">
+              <button type="button" class="btn btn-link text-decoration-none px-0 ms-3 d-md-none" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="search-loading status message d-none mt-3 text-center">Loading search index…</p>
+        <p class="search-no-recent message d-none mt-3 text-center">No recent searches</p>
+        <p class="search-no-results message d-none mt-3 text-center">No results for "<strong><span class="query-no-results">Query here</span></strong>"</p>
+        <div id="searchResults" class="search-results"></div>
+        <template>
+          <article class="search-result list-view">
+            <div class="card my-3">
+              <div class="card-body">
+                <header>
+                  <h2 class="h5 title title-submitted mb-0"><a class="stretched-link text-decoration-none text-reset" href="#">Title here</a></h2>
+                  <div class="submitted d-none"><time class="created-date">Date here</time></div>
+                </header>
+                <div class="content">Summary here</div>
+              </div>
+            </div>
+          </article>
+        </template>
+      </div>
+      <div class="modal-footer">
+        <ul class="list-inline me-auto d-none d-md-block">
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Enter key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M12 3.53088v3c0 1-1 2-2 2H4M7 11.53088l-3-3 3-3"></path></g></svg></kbd><span class="DocSearch-Label">to select</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow down" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 3.5v8M10.5 8.5l-3 3-3-3"></path></g></svg></kbd><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow up" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 11.5v-8M10.5 6.5l-3-3-3 3"></path></g></svg></kbd><span class="DocSearch-Label">to navigate</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Escape key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956"></path></g></svg></kbd><span class="DocSearch-Label">to close</span></li>
+        </ul>
+        <p class="d-md-none">Search by <a class="text-decoration-none" href="https://github.com/nextapps-de/flexsearch">FlexSearch</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="wrap container-lg" role="document">
+      <div class="content">
+      
+        
+	<div class="row flex-xl-nowrap">
+		<div class="col-lg-5 col-xl-4 docs-sidebar d-none d-lg-block">
+			
+  
+    
+<nav class="section-nav docs-links">
+  <ul class="list-unstyled">
+
+  <li>
+    <details open open>
+      <summary>Computational modelling</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+    <details open>
+      <summary>Behavioural Modelling Package</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/behavioural_modelling_package/1.-overview/">1. Overview</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+    <details open>
+      <summary>Guide</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/guide/1.-building-basic-models/">1. Building basic models</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/2.-modelling-multiple-participants/">2. Modelling multiple participants</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/3.-mcmc-sampling/">3. MCMC sampling</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/4.-hierarchical-models/">4. Hierarchical models</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/5.-visualising-mcmc-results/">5. Visualising MCMC results</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/6.-simulation-based-inference/">6. Simulation based inference</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+    <details open open>
+      <summary>Tutorial</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/1.-overview/">1. Overview</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/2.-implementing-an-update-function/">2. Implementing an update function</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/3.-selecting-actions/">3. Selecting actions</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/4.-updating-value-across-trials/">4. Updating value across trials</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/5.-running-the-model-for-multiple-subjects/">5. Running the model for multiple subjects</a>
+  </li>
+
+  <li class="active" >
+      <a aria-current="page" href="/docs/computational_modelling/tutorial/6.-model-fitting-using-mcmc/">6. Model fitting using MCMC</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/general-best-practices/">General best practices</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+      <a href="/docs/online_experiments/">Online experiments</a>
+  </li>
+  </ul>
+</nav>
+
+  
+
+		</div>
+		
+		<nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
+			<div class="page-links">
+  <h3>On this page</h3>
+    <nav id="toc">
+  <ul>
+    <li><a href="#imports">Imports</a></li>
+    <li><a href="#functions-from-the-previous-section">Functions from the previous section</a>
+      <ul>
+        <li><a href="#-one-important-change">⚠️ One important change</a></li>
+      </ul>
+    </li>
+    <li><a href="#simulate-some-data">Simulate some data</a></li>
+    <li><a href="#set-up-another-function-for-model-fitting">Set up another function for model fitting</a>
+      <ul>
+        <li><a href="#applying-the-softmax-function">Applying the softmax function</a></li>
+      </ul>
+    </li>
+    <li><a href="#set-up-the-statistical-model">Set up the statistical model</a>
+      <ul>
+        <li><a href="#building-a-hierarchical-model-for-our-parameters">Building a hierarchical model for our parameters</a></li>
+        <li><a href="#create-a-function-for-generating-non-centred-parameterisations">Create a function for generating non-centred parameterisations</a></li>
+        <li><a href="#bounding-our-parameters">Bounding our parameters</a></li>
+        <li><a href="#putting-the-model-together">Putting the model together</a></li>
+      </ul>
+    </li>
+    <li><a href="#sampling">Sampling</a></li>
+    <li><a href="#diagnostics">Diagnostics</a></li>
+    <li><a href="#parameter-recovery">Parameter recovery</a></li>
+  </ul>
+</nav>
+</div>
+
+		</nav>
+		<main class="docs-content col-lg-11 col-xl-9 mx-xl-auto">
+		
+			<h1>6. Model fitting using MCMC</h1>
+			
+			<nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
+				<details>
+    <summary>On this page</summary>
+    <div class="page-links">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#imports">Imports</a></li>
+    <li><a href="#functions-from-the-previous-section">Functions from the previous section</a>
+      <ul>
+        <li><a href="#-one-important-change">⚠️ One important change</a></li>
+      </ul>
+    </li>
+    <li><a href="#simulate-some-data">Simulate some data</a></li>
+    <li><a href="#set-up-another-function-for-model-fitting">Set up another function for model fitting</a>
+      <ul>
+        <li><a href="#applying-the-softmax-function">Applying the softmax function</a></li>
+      </ul>
+    </li>
+    <li><a href="#set-up-the-statistical-model">Set up the statistical model</a>
+      <ul>
+        <li><a href="#building-a-hierarchical-model-for-our-parameters">Building a hierarchical model for our parameters</a></li>
+        <li><a href="#create-a-function-for-generating-non-centred-parameterisations">Create a function for generating non-centred parameterisations</a></li>
+        <li><a href="#bounding-our-parameters">Bounding our parameters</a></li>
+        <li><a href="#putting-the-model-together">Putting the model together</a></li>
+      </ul>
+    </li>
+    <li><a href="#sampling">Sampling</a></li>
+    <li><a href="#diagnostics">Diagnostics</a></li>
+    <li><a href="#parameter-recovery">Parameter recovery</a></li>
+  </ul>
+</nav>
+    </div>
+  </details>
+
+			</nav>
+			<h1 id="model-fitting-using-mcmc">Model fitting using MCMC</h1>
+<p>Next, we&rsquo;ll try fitting our model to some simulated data.</p>
+<h2 id="imports">Imports<a href="#imports" class="anchor" aria-hidden="true">#</a> </h2>
+<p>First, we import necessary packages.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpyro</span>
+</span></span><span class="line"><span class="cl"><span class="n">numpyro</span><span class="o">.</span><span class="n">set_host_device_count</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># Necessary to make numpyro realise we have more than one CPU</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jax</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># set jax to use cpu</span>
+</span></span><span class="line"><span class="cl"><span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;jax_platform_name&#39;</span><span class="p">,</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">numpyro</span> <span class="kn">import</span> <span class="n">distributions</span> <span class="k">as</span> <span class="n">dist</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">behavioural_modelling.decision_rules</span> <span class="kn">import</span> <span class="n">softmax</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">behavioural_modelling.utils</span> <span class="kn">import</span> <span class="n">choice_from_action_p</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># import colormaps as cmaps</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># from matplotlib import font_manager, pyplot as plt</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># # Some code to make figures look nicer</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># url = &#39;https://github.com/google/fonts/blob/main/ofl/heebo/Heebo%5Bwght%5D.ttf?raw=true&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># r = requests.get(url)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># if r.status_code == 200:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     with open(&#39;./Heebo.ttf&#39;, &#39;wb&#39;) as f: f.write(r.content)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># font_manager.fontManager.addfont(&#39;./Heebo.ttf&#39;)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># plt.rcParams.update({&#39;lines.linewidth&#39;: 1, &#39;lines.solid_capstyle&#39;: &#39;butt&#39;, &#39;legend.fancybox&#39;: True, &#39;axes.facecolor&#39;: &#39;fafafa&#39;, &#39;savefig.edgecolor&#39;: &#39;fafafa&#39;, &#39;savefig.facecolor&#39;: &#39;fafafa&#39;, &#39;figure.subplot.left&#39;: 0.08, &#39;figure.subplot.right&#39;: 0.95, &#39;figure.subplot.bottom&#39;: 0.07, &#39;figure.facecolor&#39;: &#39;fafafa&#39;, &#39;figure.dpi&#39;: 80, &#39;lines.color&#39;: &#39;383838&#39;, &#39;patch.edgecolor&#39;: &#39;383838&#39;, &#39;text.color&#39;: &#39;383838&#39;, &#39;axes.edgecolor&#39;: &#39;383838&#39;, &#39;axes.labelcolor&#39;: &#39;383838&#39;, &#39;xtick.color&#39;: &#39;616161&#39;, &#39;ytick.color&#39;: &#39;616161&#39;, &#39;font.family&#39;: &#39;Heebo&#39;, &#39;font.weight&#39;: &#39;regular&#39;, &#39;font.size&#39;: 12, &#39;axes.titlesize&#39;: 14, &#39;axes.labelsize&#39;: 12, &#39;xtick.labelsize&#39;: 10, &#39;ytick.labelsize&#39;: 10})</span></span></span></code></pre></div>
+  </figure>
+</div>
+<h2 id="functions-from-the-previous-section">Functions from the previous section<a href="#functions-from-the-previous-section" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Here we&rsquo;ll (mostly) copy the functions we&rsquo;ve implemented in the previous sections.</p>
+<h3 id="-one-important-change">⚠️ One important change<a href="#-one-important-change" class="anchor" aria-hidden="true">#</a> </h3>
+<p>We&rsquo;re going to update the basic <code>asymmetric_rescorla_wagner_update</code> function so that it is more compatible with <code>jax.lax.scan</code>, as we&rsquo;ll need to use this later.</p>
+<p>Rather than taking separate <code>outcome</code> and <code>chosen</code> arguments, representing the reward received on the current trial and the action chosen on the current trial, we&rsquo;ll instead take a single <code>outcome_chosen</code> argument, which is a tuple of <code>(outcome, chosen)</code>. As mentioned in previous sections, this is a common pattern in JAX code, as it allows us to use <code>jax.lax.scan</code> more easily (since it only supports functions with a single input argument).</p>
+<p>We&rsquo;ll also update its return values, so that it returns the <code>updated_value</code> and a tuple of <code>(prediction_error, value)</code>, rather than just <code>value</code>. This will make it easier to use with <code>jax.lax.scan</code> as well.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@jax.jit</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">asymmetric_rescorla_wagner_update</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">value</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">outcome_chosen</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">jax</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">jax</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_n</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">jax</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">jax</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Updates the estimated value of a state or action using the Asymmetric Rescorla-Wagner learning rule.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    The function calculates the prediction error as the difference between the actual outcome and the current
+</span></span></span><span class="line"><span class="cl"><span class="s2">    estimated value. It then updates the estimated value based on the prediction error and the learning rate,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    which is determined by whether the prediction error is positive or negative.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Value estimates are only updated for chosen actions. For unchosen actions, the prediction error is set to 0.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        value (float): The current estimated value of a state or action.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        outcome_chosen (Tuple[float, float]): A tuple containing the actual outcome and a binary value indicating
+</span></span></span><span class="line"><span class="cl"><span class="s2">            whether the action was chosen.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        alpha_p (float): The learning rate used when the prediction error is positive.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        alpha_n (float): The learning rate used when the prediction error is negative.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Tuple[float, float]: The updated value and the prediction error.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Unpack the outcome and the chosen action</span>
+</span></span><span class="line"><span class="cl">    <span class="n">outcome</span><span class="p">,</span> <span class="n">chosen</span> <span class="o">=</span> <span class="n">outcome_chosen</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Calculate the prediction error</span>
+</span></span><span class="line"><span class="cl">    <span class="n">prediction_error</span> <span class="o">=</span> <span class="n">outcome</span> <span class="o">-</span> <span class="n">value</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Set prediction error to 0 for unchosen actions</span>
+</span></span><span class="line"><span class="cl">    <span class="n">prediction_error</span> <span class="o">=</span> <span class="n">prediction_error</span> <span class="o">*</span> <span class="n">chosen</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Set the learning rate based on the sign of the prediction error</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_t</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha_p</span> <span class="o">*</span> <span class="p">(</span><span class="n">prediction_error</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">alpha_n</span> <span class="o">*</span> <span class="p">(</span><span class="n">prediction_error</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Update the value</span>
+</span></span><span class="line"><span class="cl">    <span class="n">updated_value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">+</span> <span class="n">alpha_t</span> <span class="o">*</span> <span class="n">prediction_error</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">updated_value</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">prediction_error</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">asymmetric_rescorla_wagner_update_choice</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">value</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">outcome_key</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">jax</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_n</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n_actions</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Updates the value estimate using the asymmetric Rescorla-Wagner algorithm, and chooses an
+</span></span></span><span class="line"><span class="cl"><span class="s2">    option based on the softmax function.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        value (jax.typing.ArrayLike): The current value estimate.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        outcome_key (Tuple[jax.typing.ArrayLike, jax.random.PRNGKey]): A tuple containing the outcome and the PRNG key.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        alpha_p (float): The learning rate for positive outcomes.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        alpha_n (float): The learning rate for negative outcomes.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        temperature (float): The temperature parameter for softmax function.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        n_actions (int): The number of actions to choose from.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Tuple[np.ndarray, Tuple[jax.typing.ArrayLike, np.ndarray, int, np.ndarray]]:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            - updated_value (jnp.ndarray): The updated value estimate.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            - output_tuple (Tuple[jax.typing.ArrayLike, np.ndarray, int, np.ndarray]):
+</span></span></span><span class="line"><span class="cl"><span class="s2">                - value (jax.typing.ArrayLike): The original value estimate.
+</span></span></span><span class="line"><span class="cl"><span class="s2">                - choice_p (jnp.ndarray): The choice probabilities.
+</span></span></span><span class="line"><span class="cl"><span class="s2">                - choice (int): The chosen action.
+</span></span></span><span class="line"><span class="cl"><span class="s2">                - choice_array (jnp.ndarray): The chosen action in one-hot format.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Unpack outcome and key</span>
+</span></span><span class="line"><span class="cl">    <span class="n">outcome</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">outcome_key</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Get choice probabilities</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choice_p</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">temperature</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Get choice</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choice</span> <span class="o">=</span> <span class="n">choice_from_action_p</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">choice_p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Convert it to one-hot format</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choice_array</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_actions</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choice_array</span> <span class="o">=</span> <span class="n">choice_array</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">choice</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Get the outcome and update the value estimate</span>
+</span></span><span class="line"><span class="cl">    <span class="n">updated_value</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">prediction_error</span><span class="p">)</span> <span class="o">=</span> <span class="n">asymmetric_rescorla_wagner_update</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">value</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">outcome</span><span class="p">,</span> <span class="n">choice_array</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alpha_p</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alpha_n</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">updated_value</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">choice_p</span><span class="p">,</span> <span class="n">choice_array</span><span class="p">,</span> <span class="n">prediction_error</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">asymmetric_rescorla_wagner_update_choice</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">asymmetric_rescorla_wagner_update_choice</span><span class="p">,</span> <span class="n">static_argnums</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">asymmetric_rescorla_wagner_update_choice_iterator</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">outcomes</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_n</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n_actions</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">key</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Updates the value estimates using the asymmetric Rescorla-Wagner algorithm and generates choices for each trial.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        outcomes (jax.typing.ArrayLike): The outcomes for each trial.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        alpha_p (float): The learning rate for positive outcomes.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        alpha_n (float): The learning rate for negative outcomes.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        temperature (float): The temperature parameter for the softmax function.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        n_actions (int): The number of actions to choose from.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        key (jax.random.PRNGKey): The random key.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Tuple[jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray]:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            - values (jnp.ndarray): The value estimates.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            - choice_ps (jnp.ndarray): The choice probabilities.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            - choices (jnp.ndarray): The chosen actions.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            - prediction_errors (jnp.ndarray): The prediction errors.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Use partial to create a function with fixed parameters</span>
+</span></span><span class="line"><span class="cl">    <span class="n">asymmetric_rescorla_wagner_update_choice_partial</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">asymmetric_rescorla_wagner_update_choice</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alpha_p</span><span class="o">=</span><span class="n">alpha_p</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alpha_n</span><span class="o">=</span><span class="n">alpha_n</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n_actions</span><span class="o">=</span><span class="n">n_actions</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Generate random keys using JAX</span>
+</span></span><span class="line"><span class="cl">    <span class="n">keys</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">N_TRIALS</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Initialize the value estimates</span>
+</span></span><span class="line"><span class="cl">    <span class="n">value</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Loop using scan</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">choice_ps</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">prediction_errors</span><span class="p">)</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">asymmetric_rescorla_wagner_update_choice_partial</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">value</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">keys</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">values</span><span class="p">,</span> <span class="n">choice_ps</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">prediction_errors</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># JIT</span>
+</span></span><span class="line"><span class="cl"><span class="n">asymmetric_rescorla_wagner_update_choice_iterator</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">asymmetric_rescorla_wagner_update_choice_iterator</span><span class="p">,</span> <span class="n">static_argnums</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">asymmetric_rescorla_wagner_update_choice_iterator_vmap</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">asymmetric_rescorla_wagner_update_choice_iterator</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<h2 id="simulate-some-data">Simulate some data<a href="#simulate-some-data" class="anchor" aria-hidden="true">#</a> </h2>
+<p>We&rsquo;ll start by simulating some data from the model we&rsquo;ve defined. We&rsquo;ll generate some parameter values for each of our simulated &ldquo;subjects&rdquo;, and then generate some simulated choices for each subject.</p>
+<p>We&rsquo;re going to generate parameter values using appropriate distributions. The <code>alpha_p</code> and <code>alpha_n</code> parameters will be drawn from a Beta distribution since their values lie between 0 and 1, while the <code>temperature</code> parameter will be drawn from an exponential distribution. This is because the <code>temperature</code> parameter is always positive, and the exponential distribution is a good choice for positive-valued parameters.</p>
+<blockquote>
+<p><strong>NOTE</strong>: We don&rsquo;t need any of the other variables returned by the model here, so we&rsquo;ll just ignore them.</p>
+</blockquote>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Number of subjects</span>
+</span></span><span class="line"><span class="cl"><span class="n">N_SUBJECTS</span> <span class="o">=</span> <span class="mi">40</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate parameter values for each subject</span>
+</span></span><span class="line"><span class="cl"><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">alpha_p</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">N_SUBJECTS</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">alpha_n</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">N_SUBJECTS</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">temperature</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">N_SUBJECTS</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Number of trials</span>
+</span></span><span class="line"><span class="cl"><span class="n">N_TRIALS</span> <span class="o">=</span> <span class="mi">200</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Reward probabilities for each of our 5 actions</span>
+</span></span><span class="line"><span class="cl"><span class="n">reward_probs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate rewards for each trial for each action using Numpy</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># There&#39;s no need to use JAX for this</span>
+</span></span><span class="line"><span class="cl"><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">rewards</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">reward_probs</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">N_TRIALS</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">reward_probs</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run the model for each subject</span>
+</span></span><span class="line"><span class="cl"><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">asymmetric_rescorla_wagner_update_choice_iterator_vmap</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rewards</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_p</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_n</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">temperature</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">5</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<h2 id="set-up-another-function-for-model-fitting">Set up another function for model fitting<a href="#set-up-another-function-for-model-fitting" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Our current implementation simulates <strong>choices</strong> for each trial based on the current expected value. However, when we&rsquo;re fitting the model we won&rsquo;t want to do this. This is because we want to fit the model to the actual choices made by the subject, rather than the choices that the model would make (you could do this, but it generally works poorly) - we&rsquo;re essentially saying &ldquo;<em>given</em> this option was chosen on the previous trial, how close is the model&rsquo;s prediction for the next choice to the actual choice made?&rdquo;.</p>
+<p>This means we want our model to return the expected value for each option on each trial, given the observed choice, rather than generating a choice and updating based on that choice.</p>
+<p>For this reason, we&rsquo;ll use our original <code>asymmetric_rescorla_wagner_update</code> function and do the same as before to make it run across all trials for all subjects. As mentioned above, we&rsquo;ve modified this function slightly to make it more compatible with <code>jax.lax.scan</code>.</p>
+<p>We can ignore the softmax function here as we don&rsquo;t need to generate choices for each trial sequentially, and this can be applied to our estimated values at the end.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@jax.jit</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">asymmetric_rescorla_wagner_update_iterator</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">outcomes</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choices</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_n</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Updates the value estimates using the asymmetric Rescorla-Wagner algorithm.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        outcomes (jax.typing.ArrayLike): The outcomes for each trial.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        alpha_p (float): The learning rate for positive outcomes.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        alpha_n (float): The learning rate for negative outcomes.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Tuple[jnp.ndarray, jnp.ndarray]:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            - values (jnp.ndarray): The value estimates.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            - prediction_errors (jnp.ndarray): The prediction errors.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Use partial to create a function with fixed parameters</span>
+</span></span><span class="line"><span class="cl">    <span class="n">asymmetric_rescorla_wagner_update_partial</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">asymmetric_rescorla_wagner_update</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alpha_p</span><span class="o">=</span><span class="n">alpha_p</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alpha_n</span><span class="o">=</span><span class="n">alpha_n</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Initialize the value estimates</span>
+</span></span><span class="line"><span class="cl">    <span class="n">value</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Loop using scan</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">prediction_errors</span><span class="p">)</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">asymmetric_rescorla_wagner_update_partial</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">value</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">choices</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">values</span><span class="p">,</span> <span class="n">prediction_errors</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">asymmetric_rescorla_wagner_update_iterator_vmap</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">asymmetric_rescorla_wagner_update_iterator</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>In contrast to the functions above which randomly make choices on each trial, we&rsquo;re passing in <code>choices</code> as an argument, which is a <code>(n_trials, n_actions)</code> array of choices made on each trial.</p>
+<p>Our <code>vmap</code> function will then apply this function to each subject, and we can use this to calculate the log likelihood of the data given the model parameters. As before, the rewards are the same for every subject, so we set the corresponding value for <code>in_axes</code> to <code>None</code>. The remaining arguments are the choices and parameters, which differ for every subject - for this reason, we set the corresponding value for <code>in_axes</code> to <code>0</code>.</p>
+<p>As with our other <code>vmap</code>-ed functions, we can then use this to simulate expected values for each trial for each subject. We don&rsquo;t need the prediction errors here, so we&rsquo;ll only assign the expected values to a variable (assigning the prediction errors to <code>_</code>).</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Run the model for each subject</span>
+</span></span><span class="line"><span class="cl"><span class="n">values</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">asymmetric_rescorla_wagner_update_iterator_vmap</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rewards</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choices</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_p</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_n</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<h3 id="applying-the-softmax-function">Applying the softmax function<a href="#applying-the-softmax-function" class="anchor" aria-hidden="true">#</a> </h3>
+<p>As mentioned above, we don&rsquo;t need to apply the softmax function to generate choices, but we will need to apply it to our expected values to calculate the <em>probability</em> of the observed choices given the data. We can do this by applying the softmax function to the expected values for each subject once they have been calculated, as we don&rsquo;t need them to be calculated for each trial sequentially.</p>
+<p>The <code>softmax</code> function is designed to calculate choice probabilities for a single subject, we we&rsquo;ll again use <code>vmap</code> to map it over subjects.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">choice_p</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">softmax</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))(</span><span class="n">values</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<h2 id="set-up-the-statistical-model">Set up the statistical model<a href="#set-up-the-statistical-model" class="anchor" aria-hidden="true">#</a> </h2>
+<p>As described <a href="/docs/computational_modelling/guide/3.-mcmc-sampling/#creating-a-numpyro-model">in this guide</a>, the model we&rsquo;ve implemented so far is our <strong>behavioural model</strong> - it generates simulated behaviour based on a set of parameters. We want to estimate parameter values for this model for each subject in our dataset - to do this we need to set up a <strong>statistical model</strong>, which describes how we think the parameters are distributed across subjects.</p>
+<p>We will do this using <a href="https://num.pyro.ai/">NumPyro</a>, which is a probabilistic programming library built on top of JAX. This will allow us to use MCMC to estimate the parameters of our model.</p>
+<h3 id="building-a-hierarchical-model-for-our-parameters">Building a hierarchical model for our parameters<a href="#building-a-hierarchical-model-for-our-parameters" class="anchor" aria-hidden="true">#</a> </h3>
+<p>We will use a hiearchical modelling approach using a non-centred parameterisation (as described <a href="/docs/computational_modelling/guide/4.-hierarchical-models/">in this guide</a>) to estimate the parameters of our model. This assumes that each subject is drawn from a group rather than being completely independent, and uses the information from the group to improve the estimates of the individual subjects.</p>
+<p>We have <strong>three parameters</strong> that we want to estimate:</p>
+<ul>
+<li><code>alpha_p</code> - the learning rate for positive prediction errors. This parameter takes values between 0 and 1.</li>
+<li><code>alpha_n</code> - the learning rate for negative prediction errors. This parameter takes values between 0 and 1.</li>
+<li><code>temperature</code> - the temperature parameter for the softmax function. This parameter takes values between 0 and infinity.</li>
+</ul>
+<p>It is often easiest to estimate parameters whose values lie within clear ranges, whereas the softmax temperature parameter can take any positive value. To make this easier to estimate, we can sample within the range 0-1 and then transform it to the range 0-infinity using the reciprocal function:</p>
+$$
+\text{temperature} = \frac{1}{\text{temperature}}
+$$
+<h3 id="create-a-function-for-generating-non-centred-parameterisations">Create a function for generating non-centred parameterisations<a href="#create-a-function-for-generating-non-centred-parameterisations" class="anchor" aria-hidden="true">#</a> </h3>
+<p>We need to set up each parameter using a non-centred parameterisation, which means that each parameter is composed of three separate components:</p>
+<ul>
+<li>A group-level parameter mean <code>mu</code> which is drawn from a normal distribution with mean 0 and standard deviation 1, with one value for all subjects.</li>
+<li>A group-level parameter standard deviation <code>sigma</code>, which is drawn from a half-normal distribution with a scale parameter of 1, with one value for all subjects.</li>
+<li>A subject-level parameter <code>offset</code> which is drawn from a normal distribution with mean 0 and standard deviation 1, with one value for each subject.</li>
+</ul>
+<p>The subject-level parameter is then calculated as:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">subject_parameter</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">offset</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Creating these componenets for every parameter can be quite repetitive, so we&rsquo;ll create a function to do this for us.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpyro</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_subject_params</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n_subs</span><span class="p">:</span> <span class="nb">int</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Creates group mean, group sd and subject-level offset parameters.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        name (str): Name of the parameter
+</span></span></span><span class="line"><span class="cl"><span class="s2">        n_subs (int): Number of subjects
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Union[dist.Normal, dist.HalfNormal, dist.Normal]: Group mean, group sd, and subject-level offset parameters
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Group-level mean and SD</span>
+</span></span><span class="line"><span class="cl">    <span class="n">group_mean</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">{0}</span><span class="s2">_group_mean&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">group_sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">{0}</span><span class="s2">_group_sd&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Subject-level offset</span>
+</span></span><span class="line"><span class="cl">    <span class="n">offset</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;</span><span class="si">{0}</span><span class="s2">_subject_offset&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_subs</span><span class="p">,)</span>  <span class="c1"># One value per subject</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Calculate subject-level parameter</span>
+</span></span><span class="line"><span class="cl">    <span class="n">subject_param</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">deterministic</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">{0}</span><span class="s2">_subject_param&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">group_mean</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">group_sd</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">subject_param</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>This function generates the three components of the non-centred parameterisation for a single parameter, given the name of the parameter and the number of subjects. It then uses these to form the subject-level parameter value for each subject.</p>
+<p>We use <code>numpyro.deterministic</code> to create a deterministic variable in the model, which is a variable that is not sampled from, but is instead calculated from other variables in the model. This is useful for creating variables that are derived from other variables in the model, but that we don&rsquo;t want to sample from directly. We could instead do something like:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">return</span> <span class="n">group_mean</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">group_std</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>But this would mean that the subject-level parameter wouldn&rsquo;t actually be stored, and this is the parameter whose value we actually care about.</p>
+<p>We could also adjust the priors on these parameters, but these values should all work reasonably well for our purposes.</p>
+<h3 id="bounding-our-parameters">Bounding our parameters<a href="#bounding-our-parameters" class="anchor" aria-hidden="true">#</a> </h3>
+<p>As it stands, this approach will generate parameters that are unbounded, which is not ideal for our purposes as all of our parameters will be estimated in the range 0-1. One way to do this is to use a transforamtion that brings the parameters into the range 0-1. This is a common approach in Bayesian modelling, as it allows us to estimate parameters in an unbounded space, but then transform them to a bounded space.</p>
+<p>We can add this to the function using the <code>jax.scipy.special.expit</code> function, which is the inverse of the logit function. This function transforms any value to the range 0-1, which is perfect for our purposes.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_subject_params</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n_subs</span><span class="p">:</span> <span class="nb">int</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Creates group mean, group sd and subject-level offset parameters.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        name (str): Name of the parameter
+</span></span></span><span class="line"><span class="cl"><span class="s2">        n_subs (int): Number of subjects
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        jnp.array: Subject-level parameter for each subject
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Group-level mean and SD</span>
+</span></span><span class="line"><span class="cl">    <span class="n">group_mean</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">{0}</span><span class="s2">_group_mean&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">group_sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">{0}</span><span class="s2">_group_sd&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Subject-level offset</span>
+</span></span><span class="line"><span class="cl">    <span class="n">offset</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;</span><span class="si">{0}</span><span class="s2">_subject_offset&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_subs</span><span class="p">,),</span>  <span class="c1"># One value per subject</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Calculate subject-level parameter</span>
+</span></span><span class="line"><span class="cl">    <span class="n">subject_param</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">deterministic</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;</span><span class="si">{0}</span><span class="s2">_subject_param&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">expit</span><span class="p">(</span><span class="n">group_mean</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">group_sd</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">subject_param</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>The subject-level parameter is now calculated as:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">expit</span><span class="p">(</span><span class="n">group_mean</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">group_sd</span><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>As a quick demonstration of how this works, we can generate some random values and transform them. We can see that the transformed values are all between 0 and 1.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Sample from a normal distribution</span>
+</span></span><span class="line"><span class="cl"><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Plot the histogram of the untransformed data</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Plot the histogram of the transformed data</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">expit</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<pre><code>(array([ 6.,  5.,  7., 14., 19., 28., 43., 46., 32., 46., 50., 55., 51.,
+        57., 52., 45., 49., 43., 53., 44., 36., 50., 27., 36., 39., 22.,
+        20., 13.,  9.,  3.]),
+ array([0.01985156, 0.05103884, 0.08222611, 0.11341339, 0.14460067,
+        0.17578794, 0.20697522, 0.2381625 , 0.26934978, 0.30053705,
+        0.33172435, 0.36291161, 0.39409891, 0.42528617, 0.45647344,
+        0.48766074, 0.518848  , 0.5500353 , 0.58122259, 0.61240983,
+        0.64359713, 0.67478442, 0.70597166, 0.73715895, 0.76834625,
+        0.79953349, 0.83072078, 0.86190808, 0.89309537, 0.92428261,
+        0.95546991]),
+ &lt;BarContainer object of 30 artists&gt;)
+</code></pre>
+<p>
+
+<img
+  src="/docs/computational_modelling/tutorial/MCMC_19_1_hu162be2ef5ce32916c5d70f98d3f4002d_8072_552x413_resize_q85_h2_lanczos_3.webp"
+  width="552"
+  height="413"
+  decoding="async"
+  fetchpriority="auto"
+  loading="lazy"
+  alt="png"id="h-rh-i-0"
+/></p>
+<h3 id="putting-the-model-together">Putting the model together<a href="#putting-the-model-together" class="anchor" aria-hidden="true">#</a> </h3>
+<p>We can now write a function that encapsulates the statistical model for our parameters:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">asymmetric_rescorla_wagner_statistical_model</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">outcomes</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choices</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Asymmetric Rescorla-Wagner model for NumPyro.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    This forms a hierarchical model using non-centred parameterisation.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        outcomes (jnp.ndarray): The outcomes for each trial.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        choices (jnp.ndarray): The choices for each trial.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        None: The function does not return anything; it only samples from the model.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Get number of subjects based on choices</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n_subs</span> <span class="o">=</span> <span class="n">choices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Create subject-level parameters</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_p</span> <span class="o">=</span> <span class="n">create_subject_params</span><span class="p">(</span><span class="s2">&#34;alpha_p&#34;</span><span class="p">,</span> <span class="n">n_subs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_n</span> <span class="o">=</span> <span class="n">create_subject_params</span><span class="p">(</span><span class="s2">&#34;alpha_n&#34;</span><span class="p">,</span> <span class="n">n_subs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">temperature</span> <span class="o">=</span> <span class="n">create_subject_params</span><span class="p">(</span><span class="s2">&#34;temperature&#34;</span><span class="p">,</span> <span class="n">n_subs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Run the model for each subject</span>
+</span></span><span class="line"><span class="cl">    <span class="n">values</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">asymmetric_rescorla_wagner_update_iterator_vmap</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rewards</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">choices</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alpha_p</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alpha_n</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Get choice probabilities using inverse temperature</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choice_p</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">softmax</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))(</span><span class="n">values</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Bernoulli likelihood</span>
+</span></span><span class="line"><span class="cl">    <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;observed_choices&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">choice_p</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">obs</span><span class="o">=</span><span class="n">choices</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Let&rsquo;s break this down a bit:</p>
+<h4 id="1-we-enter-the-outcomes-and-observed-choices">1. We enter the outcomes and observed choices<a href="#1-we-enter-the-outcomes-and-observed-choices" class="anchor" aria-hidden="true">#</a> </h4>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">asymmetric_rescorla_wagner_statistical_model</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">outcomes</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choices</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>We provide the observed outcomes, which are used by our model to calculate prediction errors and update expected value estimates. We also provide the observed choices, which are the choices made by the subject on each trial that we use to calculate the likelihood of the data given the model.</p>
+<h4 id="2-we-set-up-priors-for-our-parameters">2. We set up priors for our parameters<a href="#2-we-set-up-priors-for-our-parameters" class="anchor" aria-hidden="true">#</a> </h4>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">alpha_p</span> <span class="o">=</span> <span class="n">create_subject_params</span><span class="p">(</span><span class="s2">&#34;alpha_p&#34;</span><span class="p">,</span> <span class="n">n_subs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">alpha_n</span> <span class="o">=</span> <span class="n">create_subject_params</span><span class="p">(</span><span class="s2">&#34;alpha_n&#34;</span><span class="p">,</span> <span class="n">n_subs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">temperature</span> <span class="o">=</span> <span class="n">create_subject_params</span><span class="p">(</span><span class="s2">&#34;temperature&#34;</span><span class="p">,</span> <span class="n">n_subs</span><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>The priors on our parameters are generated using the function we defined above to create non-centred parameterisations for each parameter. All of these are estimated in the range 0-1.</p>
+<h4 id="3-we-calculate-the-expected-values-for-each-subject">3. We calculate the expected values for each subject<a href="#3-we-calculate-the-expected-values-for-each-subject" class="anchor" aria-hidden="true">#</a> </h4>
+<p>Next, we feed these parameters, along with the subjects&rsquo; choices, into our <strong>behavioural model</strong> to estimate expected values for each subject. We use the <code>vmap</code>-ed version of our model to apply it to each subject.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">values</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">asymmetric_rescorla_wagner_update_iterator_vmap</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rewards</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choices</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_p</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha_n</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<h4 id="4-we-apply-the-softmax-function-to-the-expected-values">4. We apply the softmax function to the expected values<a href="#4-we-apply-the-softmax-function-to-the-expected-values" class="anchor" aria-hidden="true">#</a> </h4>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">choice_p</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">softmax</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))(</span><span class="n">values</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">temperature</span><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>We then apply the softmax function to the expected values for each subject, using the temperature parameter for each subject. This gives us the probability of each action being chosen on each trial. We take the reciprocal of the temperature parameter to transform it back to the range 0-infinity.</p>
+<h4 id="5-we-calculate-the-likelihood-of-the-data-given-the-model">5. We calculate the likelihood of the data given the model<a href="#5-we-calculate-the-likelihood-of-the-data-given-the-model" class="anchor" aria-hidden="true">#</a> </h4>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;observed_choices&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">choice_p</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">obs</span><span class="o">=</span><span class="n">choices</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Finally, we calculate the likelihood of the observed choices given the model. We use a Bernoulli distribution to model the likelihood of the observed choices, with the probability of each choice being given by the softmax function applied to the expected values. The Bernoulli distribution is a good choice for binary data, as it models the probability of a single binary outcome.</p>
+<h2 id="sampling">Sampling<a href="#sampling" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Now that we have our model set up, we can sample from it using MCMC. We&rsquo;ll use the <code>NUTS</code> sampler, which is a good general-purpose sampler that works well for many models.</p>
+<p>There are few important settings for the sampler that it&rsquo;s worth being aware of:</p>
+<ul>
+<li><code>num_warmup</code> - the number of warmup steps to take. This is the number of steps the sampler takes to &ldquo;warm up&rdquo; before it starts sampling. During warmup, the sampler adapts its step size and other parameters to try to find a good region of the parameter space to sample from.</li>
+<li><code>num_samples</code> - the number of samples to take after warmup. This is the number of samples that the sampler will take after warmup to estimate the posterior distribution.</li>
+<li><code>num_chains</code> - the number of chains to run. Running multiple chains can help to diagnose problems with the sampler, as you can compare the results from different chains to see if they agree.</li>
+</ul>
+<p>Here, we&rsquo;ll set the number of warmups and samples to a lower number for the sake of speed, but in practice you would want to run more warmup and samples to get a better estimate of the posterior distribution.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sampling settings</span>
+</span></span><span class="line"><span class="cl"><span class="n">N_SAMPLES</span> <span class="o">=</span> <span class="mi">4000</span>  <span class="c1"># This should be higher in practice</span>
+</span></span><span class="line"><span class="cl"><span class="n">N_WARMUP</span> <span class="o">=</span> <span class="mi">2000</span>  <span class="c1"># This should be higher in practice</span>
+</span></span><span class="line"><span class="cl"><span class="n">N_CHAINS</span> <span class="o">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set up the NUTS sampler for our model</span>
+</span></span><span class="line"><span class="cl"><span class="n">nuts_kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">asymmetric_rescorla_wagner_statistical_model</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set up the MCMC object</span>
+</span></span><span class="line"><span class="cl"><span class="n">mcmc</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">nuts_kernel</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="n">N_SAMPLES</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="n">N_WARMUP</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="n">N_CHAINS</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set the random key for sampling</span>
+</span></span><span class="line"><span class="cl"><span class="n">rng_key</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run the sampler</span>
+</span></span><span class="line"><span class="cl"><span class="n">mcmc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">choices</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Get the samples</span>
+</span></span><span class="line"><span class="cl"><span class="n">samples</span> <span class="o">=</span> <span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span></span></span></code></pre></div>
+  </figure>
+</div>
+<pre><code>  0%|          | 0/6000 [00:00&lt;?, ?it/s]
+
+
+
+  0%|          | 0/6000 [00:00&lt;?, ?it/s]
+
+
+
+  0%|          | 0/6000 [00:00&lt;?, ?it/s]
+
+
+
+  0%|          | 0/6000 [00:00&lt;?, ?it/s]
+</code></pre>
+<h2 id="diagnostics">Diagnostics<a href="#diagnostics" class="anchor" aria-hidden="true">#</a> </h2>
+<p>It&rsquo;s worth checking that the sampling procedure has gone as it should do. There are various ways to do this, many of which are implemented in <a href="https://python.arviz.org/en/latest/api/diagnostics.html">Arviz</a>, and we won&rsquo;t cover them in detail here. One quick check we can run is to look at the traceplot of the samples, which shows the value of each parameter over the course of the sampling procedure. This can give us a sense of whether the sampler has converged to the posterior distribution.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># TO BE IMPLEMENTED</span></span></span></code></pre></div>
+  </figure>
+</div>
+<h2 id="parameter-recovery">Parameter recovery<a href="#parameter-recovery" class="anchor" aria-hidden="true">#</a> </h2>
+<p>We can also check how well our model <strong>recovers</strong> true parameter values. Because we have fit it to simulated data here, we can compare the estimated parameter values to the true parameter values we used to generate the data. This can give us a sense of how well our model is able to recover the true parameters.</p>
+<p>Some useful functions for doing this are included in our <a href="https://github.com/tobywise/model-fit-tools"><code>model_fit_tools</code></a> package. For example, we can easily plot the estimated parameter values against the true parameter values to see how well they match up using the <code>plot_recovery</code> function.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">model_fit_tools.plotting</span> <span class="kn">import</span> <span class="n">plot_recovery</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Plot the recovery of thhe parameters</span>
+</span></span><span class="line"><span class="cl"><span class="n">plot_recovery</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">alpha_p</span><span class="p">,</span> <span class="n">alpha_n</span><span class="p">,</span> <span class="n">temperature</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;alpha_p_subject_param&#39;</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;alpha_n_subject_param&#39;</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;temperature_subject_param&#39;</span><span class="p">]]),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="s2">&#34;alpha_p&#34;</span><span class="p">,</span> <span class="s2">&#34;alpha_n&#34;</span><span class="p">,</span> <span class="s2">&#34;temperature&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>
+
+<img
+  src="/docs/computational_modelling/tutorial/MCMC_28_0_hu2f771559687888b5531749206ada7b10_23822_689x269_resize_q85_h2_lanczos_3.webp"
+  width="689"
+  height="269"
+  decoding="async"
+  fetchpriority="auto"
+  loading="lazy"
+  alt="png"id="h-rh-i-1"
+/></p>
+<p>As you can see, the values are correlated but they&rsquo;re not perfect (in particular, the range of values for <code>alpha_</code> is quite constrained). This is likely due to the fact that the &ldquo;task&rdquo; here is not really designed to be a good test of the model.</p>
+
+			<div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
+				</div>
+			<div class="page-nav d-flex flex-column flex-sm-row">
+	
+	<div class="card w-100">
+			<div class="card-body d-flex">
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M5 12l6 6"></path>
+						<path d="M5 12l6 -6"></path>
+				 	</svg>
+				</div>
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Prev</div>
+					<a href="/docs/computational_modelling/tutorial/5.-running-the-model-for-multiple-subjects/" class="stretched-link text-reset text-decoration-none">5. Running the model for multiple subjects</a>
+				</div>
+			</div>
+		</div>
+	<div class="m-2"></div>
+	<div class="card text-end w-100">
+			<div class="card-body d-flex justify-content-end">
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Next</div>
+					<a href="/docs/computational_modelling/general-best-practices/" class="stretched-link text-reset text-decoration-none">General best practices</a>
+				</div>
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M13 18l6 -6"></path>
+						<path d="M13 6l6 6"></path>
+					</svg>
+				</div>
+			</div>
+		</div>
+	</div>
+
+			
+		</main>
+		
+	</div>
+
+      
+      </div>
+    </div>
+    
+    
+    <footer class="footer text-muted">
+  <div class="container-lg">
+    <div class="row">
+      <div class="col-lg-8 text-center text-lg-start">
+        <ul class="list-inline">
+          <li class="list-inline-item"><a class="text-muted" href="/privacy/">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-8 text-center text-lg-end">
+        <ul class="list-inline">
+          <li class="list-inline-item">Brought to you by <a class="text-muted" href="https://gethyas.com/">Hyas</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async
+  src="/js/app.736072d39b5d235f65a5946c43bd62c4c5b279d6100c59644e371f40071bd62d.js"
+  integrity="sha256-c2By05tdI19lpZRsQ71ixMWyedYQDFlkTjcfQAcb1i0=">
+</script>
+
+
+
+
+
+<script async
+  src="/js/flexsearch.a43ad3e9453067320ab808b85ef437fc65518a219cfea8499e744b7b6f0b6924.js"
+  integrity="sha256-pDrT6UUwZzIKuAi4XvQ3/GVRiiGc/qhJnnRLe28LaSQ=">
+</script>
+<script async
+  src="/js/search-modal.543117a85590123cda9e96d1fcbf8bd22fc1a3a3ca3d31a816382f0f10f30a34.js"
+  integrity="sha256-VDEXqFWQEjzanpbR/L&#43;L0i/Bo6PKPTGoFjgvDxDzCjQ=">
+</script>
+
+    
+  </body>
+</html>

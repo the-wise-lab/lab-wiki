@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=55843&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preload" href="http://localhost:55843/fonts/vendor/jost/jost-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="http://localhost:55843/fonts/vendor/jost/jost-v4-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="http://localhost:55843/fonts/vendor/jost/jost-v4-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+<script 
+  src="/js/color-mode.f14b3e296de1d0b69e75af684b62a4a912a2cadab04e36123407cd8388204f1d.js"
+  integrity="sha256-8Us&#43;KW3h0Laeda9oS2KkqRKiytqwTjYSNAfNg4ggTx0=">
+</script>
+
+
+<link rel="stylesheet" href="/main.01b0834d5af51b24812d02878d09c8d7677d6b8af13164fb50215889dc19aaefd0e9366c13b45a9a57ae481dfd1836bce46b5ebfe461d56e3498b9443d8c5e27.css" integrity="sha512-AbCDTVr1GySBLQKHjQnI12d9a4rxMWT7UCFYidwZqu/Q6TZsE7RamleuSB39GDa85Gtev&#43;Rh1W40mLlEPYxeJw==" crossorigin="anonymous">
+
+<noscript><style>img.lazyload { display: none; }</style></noscript><base href="http://localhost:55843/docs/computational_modelling/guide/3.-mcmc-sampling/">
+  <link rel="canonical" href="http://localhost:55843/docs/computational_modelling/guide/3.-mcmc-sampling/">
+<title>3. MCMC sampling  |  Wise Lab Wiki</title>
+<meta name="description" content="This page outlines how to use models with multiple participants">
+
+    
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+      <link
+        rel="apple-touch-icon"
+        href="/apple-touch-icon.png"
+        sizes="180x180"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-192x192.png"
+        sizes="192x192"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-512x512.png"
+        sizes="512x512"
+        type="image/png"
+      >
+<link rel="manifest" href="/manifest.webmanifest">
+<meta property="og:title" content="3. MCMC sampling">
+<meta property="og:description" content="This page outlines how to use models with multiple participants">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://localhost:55843/docs/computational_modelling/guide/3.-mcmc-sampling/"><meta property="og:image" content="http://localhost:55843/cover.png"><meta property="article:section" content="docs">
+<meta property="article:published_time" content="2023-09-07T16:04:48+02:00">
+<meta property="article:modified_time" content="2023-09-07T16:04:48+02:00"><meta property="og:site_name" content="My Docs">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:55843/cover.png"><meta name="twitter:title" content="3. MCMC sampling">
+<meta name="twitter:description" content="This page outlines how to use models with multiple participants">
+<meta name="twitter:site" content="@getdoks">
+
+    
+    
+    
+    <script type="application/ld+json">
+  {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:55843/",
+       "name": "Wise Lab Wiki",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:55843/docs/",
+       "name": "Docs",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:55843/docs/computational_modelling/",
+       "name": "Computational Modelling",
+       "position": 3
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:55843/docs/computational_modelling/guide/",
+       "name": "Guide",
+       "position": 4
+     },
+     {
+       "@type": "ListItem",
+       "name": "3. MC MC Sampling",
+       "position": 5
+     }
+   ]
+ }
+</script>
+
+
+
+<head>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+
+</head>
+
+
+</head>
+
+  
+  <body class="single section docs" data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="0px 0px -60%" data-bs-smooth-scroll="true" tabindex="0">
+    <div class="sticky-top">
+<header class="navbar navbar-expand-lg">
+  <div class="container-lg">
+  
+    <a class="navbar-brand me-auto me-lg-3" href="/">Wise Lab Wiki</a>
+
+    
+    
+    <button type="button" id="searchToggleMobile" class="btn btn-link nav-link mx-2 d-lg-none" aria-label="Search website">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <circle cx="10" cy="10" r="7"></circle>
+        <line x1="21" y1="21" x2="15" y2="15"></line>
+      </svg>
+    </button>
+    
+    <button class="btn btn-link d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavSection" aria-controls="offcanvasNavSection" aria-label="Open section navigation menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+      </svg>
+    </button>
+    <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasNavSection" aria-labelledby="offcanvasNavSectionLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavSectionLabel">Docs</h5>
+        <button type="button" class="btn btn-link nav-link p-0 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="offcanvas-body">
+        <aside class="doks-sidebar mt-n3">
+          <nav id="doks-docs-nav" aria-label="Tertiary navigation">
+            
+  
+    
+<nav class="section-nav docs-links">
+  <ul class="list-unstyled">
+
+  <li>
+    <details open open>
+      <summary>Computational modelling</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+    <details open>
+      <summary>Behavioural Modelling Package</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/behavioural_modelling_package/1.-overview/">1. Overview</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+    <details open open>
+      <summary>Guide</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/guide/1.-building-basic-models/">1. Building basic models</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/2.-modelling-multiple-participants/">2. Modelling multiple participants</a>
+  </li>
+
+  <li class="active" >
+      <a aria-current="page" href="/docs/computational_modelling/guide/3.-mcmc-sampling/">3. MCMC sampling</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/4.-hierarchical-models/">4. Hierarchical models</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/5.-visualising-mcmc-results/">5. Visualising MCMC results</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/6.-simulation-based-inference/">6. Simulation based inference</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+    <details open>
+      <summary>Tutorial</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/1.-overview/">1. Overview</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/2.-implementing-an-update-function/">2. Implementing an update function</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/3.-selecting-actions/">3. Selecting actions</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/4.-updating-value-across-trials/">4. Updating value across trials</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/5.-running-the-model-for-multiple-subjects/">5. Running the model for multiple subjects</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/6.-model-fitting-using-mcmc/">6. Model fitting using MCMC</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/general-best-practices/">General best practices</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+      <a href="/docs/online_experiments/">Online experiments</a>
+  </li>
+  </ul>
+</nav>
+
+  
+
+          </nav>
+        </aside>
+      </div>
+    </div>
+    
+    <button class="btn btn-link nav-link mx-2 order-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavMain" aria-controls="offcanvasNavMain" aria-label="Open main navigation menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <line x1="4" y1="8" x2="20" y2="8"></line>
+        <line x1="4" y1="16" x2="20" y2="16"></line>
+      </svg>
+    </button>
+
+    
+    <div class="offcanvas offcanvas-end h-auto" tabindex="-1" id="offcanvasNavMain" aria-labelledby="offcanvasNavMainLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavMainLabel">Wise Lab Wiki</h5>
+        <button type="button" class="btn btn-link nav-link p-0 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+         </svg>
+        </button>
+      </div>
+      
+      <div class="offcanvas-body d-flex flex-column flex-lg-row justify-content-between">
+        <ul class="navbar-nav flex-grow-1"><li class="nav-item">
+                <a class="nav-link active" href="http://localhost:55843/docs/computational_modelling/behavioural_modelling_package/1.-overview" aria-current="true">Docs</a>
+              </li>
+            </ul>
+
+        
+        
+        <button type="button" id="searchToggleDesktop" class="btn btn-link nav-link p-2 d-none d-lg-block" aria-label="Search website">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <circle cx="10" cy="10" r="7"></circle>
+            <line x1="21" y1="21" x2="15" y2="15"></line>
+          </svg>
+        </button>
+        
+        
+        
+        <button id="buttonColorMode" class="btn btn-link mx-auto nav-link p-0 ms-lg-2 me-lg-1" type="button" aria-label="Toggle theme">
+          <svg data-bs-theme-value="dark" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+          </svg>
+          <svg data-bs-theme-value="light" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0m-5 0h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
+          </svg>
+        </button>
+        
+        <ul id="socialMenu" class="nav mx-auto flex-row order-lg-4">
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://github.com/the-wise-lab"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg><small class="ms-2 visually-hidden">GitHub</small></a>
+            </li>
+          </ul>
+        
+        </div>
+    </div>
+
+    
+    </div>
+</header>
+</div>
+
+<div class="modal" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 visually-hidden" id="searchModalLabel">Search</h1>
+        <button type="button" class="btn-close visually-hidden" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="search-input flex-grow-1 d-none">
+          <form id="search-form" class="search-form" action="#" method="post" accept-charset="UTF-8" role="search">
+            <label for="query" class="visually-hidden">Search</label>
+            <div class="d-flex">
+              <input type="search" id="query" name="query" class="search-text form-control form-control-lg" placeholder="Search" aria-label="Search" maxlength="128" autocomplete="off">
+              <button type="button" class="btn btn-link text-decoration-none px-0 ms-3 d-md-none" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="search-loading status message d-none mt-3 text-center">Loading search index…</p>
+        <p class="search-no-recent message d-none mt-3 text-center">No recent searches</p>
+        <p class="search-no-results message d-none mt-3 text-center">No results for "<strong><span class="query-no-results">Query here</span></strong>"</p>
+        <div id="searchResults" class="search-results"></div>
+        <template>
+          <article class="search-result list-view">
+            <div class="card my-3">
+              <div class="card-body">
+                <header>
+                  <h2 class="h5 title title-submitted mb-0"><a class="stretched-link text-decoration-none text-reset" href="#">Title here</a></h2>
+                  <div class="submitted d-none"><time class="created-date">Date here</time></div>
+                </header>
+                <div class="content">Summary here</div>
+              </div>
+            </div>
+          </article>
+        </template>
+      </div>
+      <div class="modal-footer">
+        <ul class="list-inline me-auto d-none d-md-block">
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Enter key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M12 3.53088v3c0 1-1 2-2 2H4M7 11.53088l-3-3 3-3"></path></g></svg></kbd><span class="DocSearch-Label">to select</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow down" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 3.5v8M10.5 8.5l-3 3-3-3"></path></g></svg></kbd><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow up" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 11.5v-8M10.5 6.5l-3-3-3 3"></path></g></svg></kbd><span class="DocSearch-Label">to navigate</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Escape key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956"></path></g></svg></kbd><span class="DocSearch-Label">to close</span></li>
+        </ul>
+        <p class="d-md-none">Search by <a class="text-decoration-none" href="https://github.com/nextapps-de/flexsearch">FlexSearch</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="wrap container-lg" role="document">
+      <div class="content">
+      
+        
+	<div class="row flex-xl-nowrap">
+		<div class="col-lg-5 col-xl-4 docs-sidebar d-none d-lg-block">
+			
+  
+    
+<nav class="section-nav docs-links">
+  <ul class="list-unstyled">
+
+  <li>
+    <details open open>
+      <summary>Computational modelling</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+    <details open>
+      <summary>Behavioural Modelling Package</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/behavioural_modelling_package/1.-overview/">1. Overview</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+    <details open open>
+      <summary>Guide</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/guide/1.-building-basic-models/">1. Building basic models</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/2.-modelling-multiple-participants/">2. Modelling multiple participants</a>
+  </li>
+
+  <li class="active" >
+      <a aria-current="page" href="/docs/computational_modelling/guide/3.-mcmc-sampling/">3. MCMC sampling</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/4.-hierarchical-models/">4. Hierarchical models</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/5.-visualising-mcmc-results/">5. Visualising MCMC results</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/guide/6.-simulation-based-inference/">6. Simulation based inference</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+    <details open>
+      <summary>Tutorial</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/1.-overview/">1. Overview</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/2.-implementing-an-update-function/">2. Implementing an update function</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/3.-selecting-actions/">3. Selecting actions</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/4.-updating-value-across-trials/">4. Updating value across trials</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/5.-running-the-model-for-multiple-subjects/">5. Running the model for multiple subjects</a>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/tutorial/6.-model-fitting-using-mcmc/">6. Model fitting using MCMC</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+      <a href="/docs/computational_modelling/general-best-practices/">General best practices</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+
+  <li>
+      <a href="/docs/online_experiments/">Online experiments</a>
+  </li>
+  </ul>
+</nav>
+
+  
+
+		</div>
+		
+		<nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
+			<div class="page-links">
+  <h3>On this page</h3>
+    <nav id="toc">
+  <ul>
+    <li><a href="#what-is-mcmc-sampling">What is MCMC sampling?</a></li>
+    <li><a href="#mcmc-sampling-using-numpyro">MCMC sampling using NumPyro</a>
+      <ul>
+        <li><a href="#creating-a-numpyro-model">Creating a NumPyro model</a></li>
+        <li><a href="#running-mcmc-sampling">Running MCMC sampling</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+		</nav>
+		<main class="docs-content col-lg-11 col-xl-9">
+		
+			<h1>3. MCMC sampling</h1>
+			
+			<nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
+				<details>
+    <summary>On this page</summary>
+    <div class="page-links">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-mcmc-sampling">What is MCMC sampling?</a></li>
+    <li><a href="#mcmc-sampling-using-numpyro">MCMC sampling using NumPyro</a>
+      <ul>
+        <li><a href="#creating-a-numpyro-model">Creating a NumPyro model</a></li>
+        <li><a href="#running-mcmc-sampling">Running MCMC sampling</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </details>
+
+			</nav>
+			<p>The previous sections outline how to generate simulated data using a computational model. In this section, we will discuss how to use Markov Chain Monte Carlo (MCMC) sampling to fit a model to data.</p>
+<h2 id="what-is-mcmc-sampling">What is MCMC sampling?<a href="#what-is-mcmc-sampling" class="anchor" aria-hidden="true">#</a> </h2>
+<p>MCMC sampling is a method for estimating the parameters of a model by sampling from the posterior distribution of the parameters. This means we can estimate a full probability distribution for each parameter, rather than just a point estimate. As we&rsquo;re thinking about probability distributions, these models are often referred to as &ldquo;Bayesian&rdquo; or &ldquo;probabilistic&rdquo; models.</p>
+<p>MCMC sampling is the &ldquo;gold standard&rdquo; for fitting computational models as it is accurate and provides a full representation of the uncertainty in the parameter estimates. However, it can be slow and complicated (the fact that a <a href="https://psycnet.apa.org/record/2023-57852-001">whole paper</a> has been written on debugging these models is a testament to this).</p>
+<h2 id="mcmc-sampling-using-numpyro">MCMC sampling using NumPyro<a href="#mcmc-sampling-using-numpyro" class="anchor" aria-hidden="true">#</a> </h2>
+<p>In this section, we will use the <a href="https://num.pyro.ai/">NumPyro</a> library to perform MCMC sampling. NumPyro is a probabilistic programming library that is built on top of JAX. Because it is built on JAX, NumPyro is able to take advantage of JAX&rsquo;s ability to compile code to run fast on different hardware (e.g., GPUs). As a result, it is able to perform MCMC sampling quickly and efficiently.</p>
+<h3 id="creating-a-numpyro-model">Creating a NumPyro model<a href="#creating-a-numpyro-model" class="anchor" aria-hidden="true">#</a> </h3>
+<p>Terminology can get confusing within the world of computational model fitting, as we tend to use the word &ldquo;model&rdquo; to refer to different things. Generally, we&rsquo;ll talk about two different types of models:</p>
+<ul>
+<li><strong>Behavioural model</strong>: This is the model that generates the behavioural data. This is the model we&rsquo;ve been discussing in the previous sections.</li>
+<li><strong>Statistical model</strong>: This is the model that describes the relationship between the parameters of the behavioural model and the data. This is the model we&rsquo;re going to discuss in this section.</li>
+</ul>
+<p>In NumPyro, we define the statistical model using a Python function. So, for our Rescorla-Wagner model, we might define a statistical model like this:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">observations</span><span class="p">,</span> <span class="n">n_participants</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Define the priors for the learning rate</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alpha</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_participants</span><span class="p">,))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Define the priors for the softmax temperature parameter</span>
+</span></span><span class="line"><span class="cl">    <span class="n">beta</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;beta&#34;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_participants</span><span class="p">,))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Get values from our model</span>
+</span></span><span class="line"><span class="cl">    <span class="n">values</span> <span class="o">=</span> <span class="n">rescorla_wagner_trial_iterator_vmap</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Apply a softmax function to the values</span>
+</span></span><span class="line"><span class="cl">    <span class="n">choice_probabilities</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Define the likelihood</span>
+</span></span><span class="line"><span class="cl">    <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;obs&#34;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">choice_probabilities</span><span class="p">,</span> <span class="n">obs</span><span class="o">=</span><span class="n">observations</span><span class="p">))</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>To break this down:</p>
+<h4 id="priors">Priors<a href="#priors" class="anchor" aria-hidden="true">#</a> </h4>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Define the priors for the learning rate</span>
+</span></span><span class="line"><span class="cl"><span class="n">alpha</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_participants</span><span class="p">,))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Define the priors for the softmax temperature parameter</span>
+</span></span><span class="line"><span class="cl"><span class="n">beta</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;beta&#34;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_participants</span><span class="p">,))</span></span></span></code></pre></div>
+  </figure>
+</div>
+<blockquote>
+<p><strong>Note</strong>: We&rsquo;ve included a softmax function here to transalte the values into choice probabilities. This is a common step in models that generate choices.</p>
+</blockquote>
+<p>We define the priors for the learning rate and softmax temperature parameter. These are the parameters we want to estimate. Here we&rsquo;ve used a uniform distribution, but you can use any appropriate distribution. Given that these values must lie between 0 and 1, you could also use a Beta distribution.</p>
+<p>For example:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">alpha</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_participants</span><span class="p">,))</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>The <code>sample_shape</code> argument allows us to sample multiple values for each participant. This is useful when we want to estimate the parameters for multiple participants.</p>
+<h4 id="behavioural-model">Behavioural model<a href="#behavioural-model" class="anchor" aria-hidden="true">#</a> </h4>
+<p>Next, we generate data from our behavioural model using the parameters we&rsquo;ve sampled:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Get values from our model</span>
+</span></span><span class="line"><span class="cl"><span class="n">values</span> <span class="o">=</span> <span class="n">rescorla_wagner_trial_iterator_vmap</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>This does exactly what we&rsquo;ve described in the previous sections: it generates values from the Rescorla-Wagner model for each participant.</p>
+<p>We also use a softmax function to convert these values into choice probabilities:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Apply a softmax function to the values</span>
+</span></span><span class="line"><span class="cl"><span class="n">choice_probabilities</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<h4 id="likelihood">Likelihood<a href="#likelihood" class="anchor" aria-hidden="true">#</a> </h4>
+<p>Finally, we define the likelihood of the data given the model:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&#34;obs&#34;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">choice_probabilities</span><span class="p">,</span> <span class="n">obs</span><span class="o">=</span><span class="n">observations</span><span class="p">))</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>This is a binomial likelihood, as we&rsquo;re assuming that the data are binary (i.e., the participant either chose option A or option B). The <code>obs</code> argument specifies the observed data, which in this case is the choices made by the participant.</p>
+<p>This is ultimately the metric used to fit the model to the data. The MCMC algorithm will sample values for <code>alpha</code> and <code>beta</code> that maximise the likelihood of the data given the model.</p>
+<h3 id="running-mcmc-sampling">Running MCMC sampling<a href="#running-mcmc-sampling" class="anchor" aria-hidden="true">#</a> </h3>
+<p>Once we&rsquo;ve defined our model, we can run MCMC sampling using NumPyro. This is done using the <code>numpyro.infer.MCMC</code> class:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Set up the MCMC sampler</span>
+</span></span><span class="line"><span class="cl"><span class="n">mcmc</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">),</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Get a random key</span>
+</span></span><span class="line"><span class="cl"><span class="n">rng_key</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Get number of participants</span>
+</span></span><span class="line"><span class="cl"><span class="n">n_participants</span> <span class="o">=</span> <span class="n">observations</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run the MCMC sampling</span>
+</span></span><span class="line"><span class="cl"><span class="n">mcmc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">,</span> <span class="n">observations</span><span class="p">,</span> <span class="n">n_participants</span><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<blockquote>
+<p><strong>Note</strong>: We assume here that <code>observations</code> is a NumPy array containing the observed data and <code>outcomes</code> is a NumPy array containing the task outcomes.</p>
+</blockquote>
+<p>This will run the MCMC sampling algorithm and store the samples in the <code>mcmc</code> object. We can then use the samples to estimate the posterior distribution of the parameters.</p>
+<p>For example, we can use the <code>mcmc.get_samples()</code> method to get the samples from the MCMC run:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">samples</span> <span class="o">=</span> <span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span></span></span></code></pre></div>
+  </figure>
+</div>
+<h4 id="settings-for-mcmc-sampling">Settings for MCMC sampling<a href="#settings-for-mcmc-sampling" class="anchor" aria-hidden="true">#</a> </h4>
+<p>In general, the default settings for MCMC sampling in NumPyro are pretty good. However, there are some things you may want to adjust.</p>
+<ul>
+<li><code>num_samples</code>: The number of samples to draw from the posterior distribution. More samples will give you a more accurate estimate of the posterior distribution, but will take longer to run. In general, something like 4000 samples is a good starting point, but more is better if feasible.</li>
+<li><code>num_warmup</code>: The number of warmup samples to draw before starting to draw samples from the posterior distribution. Warmup samples are used to &ldquo;tune&rdquo; the sampler and are not included in the final samples. In general, something like 1000 warmup samples is a good starting point.</li>
+<li><code>num_chains</code>: The number of chains to run. More chains will give you a more accurate estimate of the posterior distribution, but will take longer to run. I would normally use 4 chains.</li>
+</ul>
+
+			<div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
+				</div>
+			<div class="page-nav d-flex flex-column flex-sm-row">
+	
+	<div class="card w-100">
+			<div class="card-body d-flex">
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M5 12l6 6"></path>
+						<path d="M5 12l6 -6"></path>
+				 	</svg>
+				</div>
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Prev</div>
+					<a href="/docs/computational_modelling/guide/2.-modelling-multiple-participants/" class="stretched-link text-reset text-decoration-none">2. Modelling multiple participants</a>
+				</div>
+			</div>
+		</div>
+	<div class="m-2"></div>
+	<div class="card text-end w-100">
+			<div class="card-body d-flex justify-content-end">
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Next</div>
+					<a href="/docs/computational_modelling/guide/4.-hierarchical-models/" class="stretched-link text-reset text-decoration-none">4. Hierarchical models</a>
+				</div>
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M13 18l6 -6"></path>
+						<path d="M13 6l6 6"></path>
+					</svg>
+				</div>
+			</div>
+		</div>
+	</div>
+
+			
+		</main>
+		
+	</div>
+
+      
+      </div>
+    </div>
+    
+    
+    <footer class="footer text-muted">
+  <div class="container-lg">
+    <div class="row">
+      <div class="col-lg-8 text-center text-lg-start">
+        <ul class="list-inline">
+          <li class="list-inline-item"><a class="text-muted" href="/privacy/">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-8 text-center text-lg-end">
+        <ul class="list-inline">
+          <li class="list-inline-item">Brought to you by <a class="text-muted" href="https://gethyas.com/">Hyas</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async
+  src="/js/app.736072d39b5d235f65a5946c43bd62c4c5b279d6100c59644e371f40071bd62d.js"
+  integrity="sha256-c2By05tdI19lpZRsQ71ixMWyedYQDFlkTjcfQAcb1i0=">
+</script>
+
+
+
+
+
+<script async
+  src="/js/flexsearch.a43ad3e9453067320ab808b85ef437fc65518a219cfea8499e744b7b6f0b6924.js"
+  integrity="sha256-pDrT6UUwZzIKuAi4XvQ3/GVRiiGc/qhJnnRLe28LaSQ=">
+</script>
+<script async
+  src="/js/search-modal.543117a85590123cda9e96d1fcbf8bd22fc1a3a3ca3d31a816382f0f10f30a34.js"
+  integrity="sha256-VDEXqFWQEjzanpbR/L&#43;L0i/Bo6PKPTGoFjgvDxDzCjQ=">
+</script>
+
+    
+  </body>
+</html>

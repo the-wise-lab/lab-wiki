@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Computational modelling on Wise Lab Wiki</title>
+    <link>http://localhost:55331/docs/computational_modelling/</link>
+    <description>Recent content in Computational modelling on Wise Lab Wiki</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2020-2024 Hyas</copyright>
+    <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:55331/docs/computational_modelling/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>General best practices</title>
+      <link>http://localhost:55331/docs/computational_modelling/general-best-practices/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:55331/docs/computational_modelling/general-best-practices/</guid>
+      <description>Building models If possible, build models using JAX Make sure code is modular and well-documented Components that could be reused should be made into functions Contribute model code to behavioural_modelling if appropriate Fitting models See this paper for some useful advice on fitting models </description>
+    </item>
+  </channel>
+</rss>
