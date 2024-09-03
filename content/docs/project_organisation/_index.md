@@ -1,3 +1,10 @@
+---
+title: "Project organisation"
+description: ""
+summary: ""
+---
+
+
 # Organising a project
 
 It is helpful to have a consistent structure for research projects for a few reasons:
