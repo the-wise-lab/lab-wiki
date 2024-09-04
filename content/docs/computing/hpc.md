@@ -1,5 +1,5 @@
 ---
-title: "High perforamnce computing"
+title: "High performance computing"
 ---
 
 # High performance computing
