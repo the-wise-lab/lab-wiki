@@ -130,9 +130,9 @@ include = ["project_code*"]
 
 This achieves the same thing (i.e., allowing your code to be installed as a package), but will be the preferred way to do this going forward.
 
-## Installing your package
+### Installing your package
 
-Whiechever way you choose to do this, you can then install your package using:
+Whichever way you choose to do this, you can then install your package using:
 
 ```bash
 pip install . -e
