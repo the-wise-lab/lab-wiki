@@ -1,5 +1,5 @@
 ---
-title: "Documentation"
+title: "Docs"
 description: "Main documentation section"
 summary: "Find all the documentation for The Wise Lab here."
 date: 2023-09-07T16:12:03+02:00
@@ -12,7 +12,7 @@ menu:
     identifier: "docs"
 toc: true
 seo:
-  title: "Documentation"
+  title: "Docs"
   description: "The Wise Lab documentation"
   canonical: ""
   noindex: false
