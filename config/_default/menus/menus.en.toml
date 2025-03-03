@@ -30,7 +30,7 @@
 
 [[main]]
   name = "Docs"
-  url = "/docs/computational_modelling/behavioural_modelling_package/1.-overview"
+  url = "/docs/contents/"
 # url = "/docs/1.0/prologue/introduction/"
   weight = 10
 
