@@ -381,6 +381,55 @@ parameter_alpha_model_1 = 5
 parameter_beta_model_1 = 10
 ```
 
+### Python conventions for variable names
+
+There are some standard conventions for naming variables etc. in code. These are:
+
+1. **snake_case**: This is where you use all lowercase letters, with underscores between words. For example, `my_variable_name`.
+2. **CamelCase**: This is where you use capital letters at the start of each word (except the first). For example, `myVariableName`.
+3. **PascalCase**: This is where you use capital letters at the start of each word (including the first). For example, `MyVariableName`.
+4. **All caps**: This is where you use all capital letters. For example, `MY_VARIABLE_NAME`.
+
+The convention in Python is to use `snake_case` for variable names, and `CamelCase` for class names. All caps can be used for constants (e.g., `PI = 3.14159`). This is not a hard and fast rule, but it's a good convention to follow as it makes it clearer what each variable corresponds to.
+
+So, for example:
+
+```python
+# Standard variable (snake_case)
+my_variable_name = 5
+
+# Function (snake_case)
+def my_function(my_argument_name):
+    return my_argument_name + 1
+
+# Class (CamelCase)
+class MyClass:
+    def __init__(self, my_argument_name):
+        self.my_argument_name = my_argument_name
+
+```
+
+### Javascript conventions for variable names
+
+Javascript uses `camelCase` for variable names, and `PascalCase` for class names. So, for example:
+
+```javascript
+// Standard variable (camelCase)
+let myVariableName = 5;
+
+// Function (camelCase)
+function myFunction(myArgumentName) {
+    return myArgumentName + 1;
+}
+
+// Class (PascalCase)
+class MyClass {
+    constructor(myArgumentName) {
+        this.myArgumentName = myArgumentName;
+    }
+}
+```
+
 ## 8. Unclear file names
 
 ### Naming and organising
