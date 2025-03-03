@@ -499,9 +499,9 @@ plt.hist(jax.scipy.special.expit(x), bins=30)
 
 
 
-
+    
 ![png](./MCMC_19_1.png)
-
+    
 
 
 ### Putting the model together
@@ -568,7 +568,7 @@ def asymmetric_rescorla_wagner_statistical_model(
 
 We provide the observed outcomes, which are used by our model to calculate prediction errors and update expected value estimates. We also provide the observed choices, which are the choices made by the subject on each trial that we use to calculate the likelihood of the data given the model.
 
-#### 2. We set up priors for our parameters
+#### 2. We set up priors for our parameters 
 
 ```python
 alpha_p = create_subject_params("alpha_p", n_subs)
@@ -618,7 +618,7 @@ Now that we have our model set up, we can sample from it using MCMC. We'll use t
 There are few important settings for the sampler that it's worth being aware of:
 * `num_warmup` - the number of warmup steps to take. This is the number of steps the sampler takes to "warm up" before it starts sampling. During warmup, the sampler adapts its step size and other parameters to try to find a good region of the parameter space to sample from.
 * `num_samples` - the number of samples to take after warmup. This is the number of samples that the sampler will take after warmup to estimate the posterior distribution.
-* `num_chains` - the number of chains to run. Running multiple chains can help to diagnose problems with the sampler, as you can compare the results from different chains to see if they agree.
+* `num_chains` - the number of chains to run. Running multiple chains can help to diagnose problems with the sampler, as you can compare the results from different chains to see if they agree.  
 
 Here, we'll set the number of warmups and samples to a lower number for the sake of speed, but in practice you would want to run more warmup and samples to get a better estimate of the posterior distribution.
 
@@ -693,9 +693,9 @@ plot_recovery(
 ```
 
 
-
+    
 ![png](./MCMC_28_0.png)
-
+    
 
 
 As you can see, the values are correlated but they're not perfect (in particular, the range of values for `alpha_` is quite constrained). This is likely due to the fact that the "task" here is not really designed to be a good test of the model.
