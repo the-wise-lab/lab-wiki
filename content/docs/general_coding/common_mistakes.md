@@ -135,7 +135,7 @@ This achieves the same thing (i.e., allowing your code to be installed as a pack
 Whichever way you choose to do this, you can then install your package using:
 
 ```bash
-pip install . -e
+pip install -e .
 ```
 
 The `-e` flag tells Python to install the package in "editable" mode, which means that any changes you make to the code will be reflected in the package without needing to reinstall it. This means that as you update your code, you can use it in other places without needing to reinstall the package.
