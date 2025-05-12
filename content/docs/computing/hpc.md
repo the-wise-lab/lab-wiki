@@ -1,7 +1,6 @@
 ---
 title: "High performance computing"
 ---
-
 # High performance computing
 
 While many things can be run on a laptop/desktop, you will typically be able to speed things up substantially by taking advantage of high performance computing (HPC) resources. This is especially the case if you have a task that can be easily parallelised. However, versus a laptop, HPC resources are typically faster even for single-threaded tasks.
@@ -58,6 +57,45 @@ sbatch my_script.sh
 ```
 
 See the [CREATE documentation](https://docs.er.kcl.ac.uk/CREATE/running_jobs/) for more information about submitting batch jobs.
+
+#### Problems and solutions
+
+##### Problems
+
+1. **Working Directory Issue**:
+   * The default working directory for batch job might be different from the expected one, causing files like `config.yml` and `search_space.json` to be inaccessible.
+2. **Conda Environment**:
+   * SLURM jobs do not automatically inherit environment variables from the interactive shell, which may result in failure to find Python and dependencies.
+3. **Task Running in the Background Without Blocking the Process**:
+   * For example, when you are using NNI, `nnictl create --config config.yml` starts the NNI task, but the SLURM job exits prematurely since `run.sh` completes execution immediately after.
+
+##### **Solutions**
+
+Modify `run.sh` as follows:
+
+```shell
+#!/bin/bash
+#SBATCH --job-name=my_job
+#SBATCH --output=output/my_job.log
+#SBATCH --error=output/my_job.log
+#SBATCH --ntasks=1
+#SBATCH --partition=gpu
+#SBATCH --time=4:00:00
+#SBATCH --gpus=1
+#SBATCH --cpus-per-gpu=16
+#SBATCH --mem-per-gpu=32G
+
+# 1. Navigate to the working directory, replace <k-number> with your k number
+cd /users/<k-number>/my_env|| exit 1
+
+# 2. Activate Conda environment, if you are using miniconda for package management
+source ~/miniconda3/bin/activate my_env
+
+# 3. Prevent the SLURM job from exiting immediately. You might not see its effect, but you can't do without it.
+while true; do
+    sleep Infinity
+done
+```
 
 ## Running Jupyter notebooks on HPC
 
