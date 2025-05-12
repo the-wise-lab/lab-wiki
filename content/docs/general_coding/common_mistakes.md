@@ -316,6 +316,24 @@ my_code.py:2:1: F401 'csv' imported but unused
 my_code.py:5:1: F401 'sys' imported but unused
 ```
 
+Another tool that is quite useful is [`ruff`](https://github.com/astral-sh/ruff), which can do all sorts of checking and formatting. You can install it using:
+
+```bash
+pip install ruff
+```
+
+And run it using:
+
+```bash
+ruff check my_code.py
+```
+
+Or to automatically fix issues:
+
+```bash
+ruff check my_code.py --fix
+```
+
 ### Fixing import issues in Jupyter notebooks
 
 You can use `nbqa` (mentioned above) to use `isort` and `autoflake` on Jupyter notebooks. For example, you can use:
@@ -510,4 +528,3 @@ This is important for a number of reasons:
 There are different standardised formats for docstrings, but the most common is probably the Google format. You can find more information on this [here](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
 
 Thankfully, tools like Copilot and ChatGPT are very good at creating docstrings (although you should always double check what they've given you), which makes this process much easier.
-
